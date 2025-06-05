@@ -9,7 +9,6 @@ import java.util.*;
 public class CarnivalQuizGame_v2{
 
     // ANSI escape codes for colors
-
     static final String RED = "\u001B[31m";
     static final String GREEN = "\u001B[32m";
     static final String BLUE = "\u001B[34m";
@@ -645,26 +644,12 @@ public class CarnivalQuizGame_v2{
     // SB: This method will print a lollipop
     public static void printLollipop() {
 
-        // System.out.println(PINK + "     .-''''-." + RESET);
-        // System.out.println(YELLOW + "   .'        '." + RESET);
-        // System.out.println(CYAN + "  /   .-''-.   \\" + RESET);
-        // System.out.println(PINK + " |   /      \\   |" + RESET);
-        // System.out.println(YELLOW + " |  |        |  |" + RESET);
-        // System.out.println(CYAN + " |   \\      /   |" + RESET);
-        // System.out.println(PINK + "  \\   '-..-'   /" + RESET);
-        // System.out.println(YELLOW + "   '.        .'" + RESET);
-        // System.out.println(CYAN + "     '-.__.-'" + RESET);
-        // System.out.println("        ||");
-        // System.out.println("        ||");
-        // System.out.println("        ||");
-
         System.out.println(PINK   + "   .-." + RESET);
         System.out.println(YELLOW + "  ( @ )" + RESET);
         System.out.println(CYAN   + "   `-'" + RESET);
         System.out.println("    |");
         System.out.println("    |");
         System.out.println("    |");        
-        
         System.out.println("LOLLIPOP!");
     }
 
