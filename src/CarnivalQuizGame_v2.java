@@ -407,12 +407,12 @@ public class CarnivalQuizGame_v2{
 
         // SB: Print the game stats
         System.out.println(YELLOW + "User Name: " + RESET + userName + 
-                            YELLOW + "         Current score: " + RESET + score + 
+                            YELLOW + "              Current score: " + RESET + score + 
                             YELLOW + "         Total Score: " + RESET + scoreTotal);
         System.out.print(YELLOW+ "Questions attempted: " + RESET + numQsAttempted + 
         YELLOW + "      Answered correctly: " + RESET + numAnsCorrect);
         if (numQsAttempted > 0) {
-            System.out.println(YELLOW + "      Pass Rate: " + RESET + (numAnsCorrect * 100.0 / numQsAttempted) + "%");
+            System.out.println(YELLOW + "      Pass Rate: " + RESET + Math.round(numAnsCorrect * 100.0 / numQsAttempted) + "%");
         }
         else {
             System.out.println(YELLOW + "      Pass Rate: " + RESET + "0%");
