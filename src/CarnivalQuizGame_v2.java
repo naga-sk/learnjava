@@ -67,9 +67,10 @@ public class CarnivalQuizGame_v2{
         // This will need to be stored until the game is exited
         double scoreTotal = 0.0;
 
+        printAsciiTitle();
+        
         //SB: Get the users name using the getString function and greet the user with their name
-        String uName = pauseAndContinue(RED + "\n\nWelcome to the Carnival Quiz Game!" +
-                                        RESET + "\nWhat is your name? ", true, 3);
+        String uName = pauseAndContinue(YELLOW + "\n\nWhat is your name? " + RESET, true, 3);
 
         // Loop for the current topic.
         do {
@@ -158,7 +159,7 @@ public class CarnivalQuizGame_v2{
                 }
 
                 // Show the randomly selected question:
-                System.out.println(BLUE + "\nQuestion #" + iQCount + " -- " + strQuestions[iRandQ][0] + RESET);
+                System.out.println(PINK + "\nQuestion #" + iQCount + " -- " + strQuestions[iRandQ][0] + RESET);
 
                 // This shows the four options -- if you want letters for options instead of
                 // numbers it can be done as well, ask and I can show it.
@@ -383,16 +384,17 @@ public class CarnivalQuizGame_v2{
                     "\n- Type 'no' to quit. WARNING: You will exit the game and all progress will be lost\n" + RESET,
                     true,-1).equalsIgnoreCase("no"));
 
-            System.out.println(RED + "===================================================================" + RESET);
-            System.out.println(YELLOW + "\n- - - - - - THANK YOU for playing the CARNIVAL QUIZ GAME - - - - - -" + RESET);
+            printAsciiTitle();
+
+            System.out.println(YELLOW + "\n- - - - - - - - THANK YOU for playing! - - - - - - - -" + RESET);
 
             // SB: Since the user is quitting the game, it is time to declare the total score and the prizes they won
             System.out.println("\n" + PINK + uName + CYAN + " - Your total score is " + RESET + scoreTotal);
             System.out.println(GREEN + "\nHere's are the prizes you won today: " + RESET);
             printArrayContents(prizesWon);
 
-            System.out.println(YELLOW + "\n- - - - - - - - - Come back to play another time! - - - - - - - - -" + RESET);
-            System.out.println(RED + "===================================================================" + RESET);
+            System.out.println(YELLOW + "\n- - - - - - Come back to play another time!- - - - - -" + RESET);
+            System.out.println(ORANGE + "======================================================" + RESET);
 
     }
 
@@ -476,6 +478,25 @@ public class CarnivalQuizGame_v2{
             }
         }
     }
+
+    public static void printAsciiTitle() {
+        System.out.println(ORANGE + "======================================================" + RESET);
+        System.out.println("\n" + YELLOW +
+            "       _____                  _               _ \n" +
+            "      /  __ \\                (_)             | |\n" +
+            "     /  /  \\/ __ _ _ __ _ __  _ __    __ __ _| |\n" +
+            "    |  |     / _` | '_,| '_ `| |\\ \\  / // _` | | \n" +
+            "     \\  \\__/\\ (_| | |  | | | | | \\ \\/ /| (_| | |\n" +
+            "      \\_____/\\__,_|_|  |_| |_|_|  \\__/  \\__,_|_|\n" +
+            "\n" +
+            "  ___        _         ___                          \n" + 
+            " / _ \\      (_)       / _ \\     \n" +
+            "| | | |_   _ _ ____  / / |_| __ _ _ __  __   ___  ___ \n" +
+            "| | | | | | | |_  /  | |___ / _` | '_ `'_ \\ / _ \\/ __|\n" +
+            "| |,\\ \\ |_| | |/ /_  \\ \\__ | (_| | | | | | |  __/\\__ \\\n" +
+            " \\__,\\_\\__,_|_|____|  \\____/\\__,_|_| |_| |_|\\___||___/\n\n" + RESET);
+        System.out.println(ORANGE + "======================================================" + RESET);
+    }    
 
     // Loads the array sent in with the first topic content.
     // SB: strAs 1D array will store the correct answers for all 20 questions
