@@ -1,5 +1,3 @@
-package app;
-
 //Shared May 15th, 2025//Skeleton Code for Quiz Program
 // //This imports the required library of commands to access the common
 // //utilities and the input and output commands.
@@ -8,8 +6,21 @@ package app;
 import java.util.*;
 
 /**  * This skeleton must be used for your Final Computer Quiz Program  */
-public class CarnivalQuizGame {
+public class CarnivalQuizGame_v2{
 
+    // ANSI escape codes for colors
+
+    static final String RED = "\u001B[31m";
+    static final String GREEN = "\u001B[32m";
+    static final String BLUE = "\u001B[34m";
+    static final String ORANGE = "\u001B[38;5;208m"; // Orange for basket
+    static final String BROWN = "\u001B[38;5;94m"; // Brown for basket
+    static final String PURPLE = "\u001B[35m";
+    static final String PINK = "\u001B[35m";
+    static final String YELLOW = "\u001B[33m";
+    static final String CYAN = "\u001B[36m";
+    static final String RESET = "\u001B[0m";
+    
     /**
      *  * This is the main routine where you will put your code for this
      * assignment. 
@@ -28,16 +39,15 @@ public class CarnivalQuizGame {
         // This needs to be setup for each game
         String[][] strQuestions = new String[20][5];
 
-        // SB: Declare the 1D array that will hold the answers for each of the 20 questions. Why!? Ofcourse
+        // SB: Declare the 1D array that will hold the answers for each of the 20 questions
         // This needs to be setup for each game
         String[] strAnswers = new String[20];
 
         // SB: Declare the 1D array that will hold the 3 prizes for each game - for > 30%, 60% and 90% scores
-        // Virtual prizes. Not real ones though
         // This needs to be setup for each game
         String[] strPrizes = new String[3];
 
-        // SB: Declare the 1D array that will hold the incorrect questions. This can be used to shame the user at the end
+        // SB: Declare the 1D array that will hold the incorrect questions
         // This needs to be reset for each game
         String[] incorrectQs = new String[20];
 
@@ -45,7 +55,7 @@ public class CarnivalQuizGame {
         // This needs to be reset for each game
         int numQsAttempted, numAnsCorrect;
 
-        // SB: This variable stores the users game score. Secretly tell them that these scores will be in the news. 
+        // SB: This variable stores the users game score
         // This needs to be reset for each game        
         double score;
 
@@ -58,8 +68,9 @@ public class CarnivalQuizGame {
         // This will need to be stored until the game is exited
         double scoreTotal = 0.0;
 
-        //SB: Get the users name using the getString function and greet the user with their name, hoping they actually spell it right
-        String uName = getString("\n\nWelcome to the Carnival Quiz Game! \nWhat is your name?", false, 3, -1);
+        //SB: Get the users name using the getString function and greet the user with their name
+        String uName = pauseAndContinue(RED + "\n\nWelcome to the Carnival Quiz Game!" +
+                                        RESET + "\nWhat is your name? ", true, 3);
 
         // Loop for the current topic.
         do {
@@ -68,12 +79,12 @@ public class CarnivalQuizGame {
             // Stores nothing ("") in all spots in the 2D array.
             initialize(strQuestions, "");
 
-            // SB: Initialize all the 1D arrays with nothing (""). Nothing is awesome
+            // SB: Initialize all the 1D arrays with nothing ("")
             initialize(strAnswers, "");
             initialize(strPrizes, "");
             initialize(incorrectQs, "");
 
-            // SB: Initiatize all the game stats to 0, and hope people score something
+            // SB: Initiatize all the game stats to 0
             numQsAttempted = 0;
             numAnsCorrect = 0;
             score = 0;
@@ -81,11 +92,19 @@ public class CarnivalQuizGame {
             // Used in the random number generation and loop end detection.
             int iNumQs = strQuestions.length;
 
-            // Get the user input for which topic to select.
+            // Get the user input for which game to select.
             int iSection = getInt(
-                    "\nHello " + uName + "! \nWelcome to Carnival Games: \n* 1 - The Claw Machine\n* 2 - Apple Bobbing\n* 3 - The Sack Race\nWhich number would you like to play? Please enter 1, 2 or 3",
+                    "\nHello " + RED + uName + RESET + ". Select your game here: \n" + 
+                    "* " + YELLOW + "1 - The Claw Machine\n" + 
+                    "* " + GREEN + "2 - Apple Bobbing\n" + 
+                    "* " + BLUE + "3 - The Sack Race\n" + RESET +
+                    "Which number would you like to play? " +
+                    "Please enter " + YELLOW + "1, " + GREEN + "2" + RESET + " or " + BLUE + "3" + RESET + ": ",
                     1, 3);
-
+            
+            // SB: Store the game name to be used for display
+            String gameName = "";
+            
             // Based on the topic number, call the method and load the correct set of
             // questions.
             switch (iSection) {
@@ -96,27 +115,35 @@ public class CarnivalQuizGame {
                     // SB: strQuestions will store 20 questions and 4 answer options for each
                     // SB: strAnswers will store only the correct answer numbers for 20 questions
                     fillArrayTopic1(strQuestions, strAnswers, strPrizes);
+                    gameName = "The Claw Machine";
                     break;
 
                 case 2:
                     // Call method for section/topic 2
                     fillArrayTopic2(strQuestions, strAnswers, strPrizes);
+                    gameName = "Apple Bobbing";
                     break;
 
                 case 3:
                     // Call method for section/topic 3
                     fillArrayTopic3(strQuestions, strAnswers, strPrizes);
+                    gameName = "The Sack Race";
                     break;
 
                 default:
                     // Should not happen -- but you can add any code for this situation.
             }
 
+            // SB: Instruct the user to enter the game before clearing the screen
+            pauseToContinue("\nHit 'Enter' to play '" + gameName +"'", true);
+            
             // This variable keeps track of what the current questions number we are at.
             int iQCount = 0;
 
             // Loop to do the random questions.
             do {
+                printGameHeader(gameName, numQsAttempted, numAnsCorrect, score, scoreTotal);
+                
                 // Add one to the question count.
                 iQCount++;
 
@@ -132,7 +159,7 @@ public class CarnivalQuizGame {
                 }
 
                 // Show the randomly selected question:
-                System.out.println("\nQuestion #" + iQCount + " -- " + strQuestions[iRandQ][0]);
+                System.out.println(BLUE + "\nQuestion #" + iQCount + " -- " + strQuestions[iRandQ][0] + RESET);
 
                 // This shows the four options -- if you want letters for options instead of
                 // numbers it can be done as well, ask and I can show it.
@@ -165,6 +192,7 @@ public class CarnivalQuizGame {
                 // SB: This do while loop will allow for up to 2 attempts 
                 // Exit condition - User has a correct answer or User has attempted twice
                 do {
+                  
                     // SB: Increment user's attempt    
                     uAttempt += 1;
 
@@ -180,22 +208,30 @@ public class CarnivalQuizGame {
                         // SB: if this was the first attempt
                         if (uAttempt == 1) {
                             // SB: Update score by 1 for the first attempt
-                            score+=1;
+                            score += 1;
 
-                            System.out.println("Bingo! You've scored 1 point");                            
+                            // SB: also update total score
+                            // This is the cumulative score across all games
+                            scoreTotal += 1;
+
+                            System.out.println(GREEN + "Bingo! You've scored " + RESET + "1 " + GREEN +"point" + RESET);
                         }
                         // SB: if this was the second attempt
                         else {
                             // SB: Update score by 0.5 for the second attempt
-                            score+=0.5;
+                            score += 0.5;
 
-                            System.out.println("You got that right! You've scored 0.5");
+                            // SB: also update total score
+                            // This is the cumulative score across all games
+                            scoreTotal += 0.5;
+                            
+                            System.out.println(GREEN + "You got that right! You've scored " + RESET + "0.5");
                         }
 
                         if (correctAns) {
+
                             // SB: This needs to be updated only once for a question, if the answer is right
                             numAnsCorrect+=1;
-
                         }
 
                     }
@@ -205,35 +241,38 @@ public class CarnivalQuizGame {
                         // SB: if this was the first attempt
                         if (uAttempt == 1) {
                             // SB: Inform the user about getting another chance to try
-                            System.out.println("That was not the right answer. You get one more chance.");
+                            System.out.println(YELLOW + "That was not the right answer. You get one more chance." + RESET);
                         }
                         // SB: if this was the second and final attempt
                         else {
                             // SB: Inform the user about not scoring                            
-                            System.out.println("You missed scoring that one :(");                                                        
+                            System.out.println(RED + "You missed scoring that one :(" + RESET);                                                        
                         }
                     }
+
                 } while (correctAns == false && uAttempt != 2);
 
                 // SB: if correctAns is still false (even after 2 attempts), that means the user failed the question. So sad!
                 if (correctAns == false) {
 
-                    // SB: Store the incorrectly answered question in a separate array. Remember, we need this to shame the user. 
+                    // SB: Store the incorrectly answered question in a separate array
                     incorrectQs[iRandQ] = strQuestions[iRandQ][0];
 
                 }
 
-                // Clear that question so it is not selected again. Hmmm.. very smart thinking here!
+                // Clear that question so it is not selected again
                 strQuestions[iRandQ][0] = "";                
 
-                // SB: Give the user some well-deserved feedback about that round. They need the motivation to continue this game
-                System.out.println("\nYou've attempted " + numQsAttempted + " questions in this game and answered " + numAnsCorrect + " correctly.");
-                System.out.println("Your current score is " + score);
+                // SB: Give the user feedback about that round
+                //System.out.printlPern("\nYou've attempted " + numQsAttempted + " questions in this game and answered " + numAnsCorrect + " correctly.");
+                //System.out.println("Your current score is " + score);
 
-                // Keep looping while we have not used all the questions or the user explicitly asks to quit. Otherwise we keep them entertained forever. 
-            } while (iQCount != iNumQs && !getString(
-                    "\nWould you like to see a different random question? Enter 'no' to go to Game Selection menu. Anything else will continue the game.",
-                    true, -1, -1).equalsIgnoreCase("no"));
+                // Keep looping while we have not used all the questions or the user explicitly asks to quit by entering 'no'
+            } while (iQCount != iNumQs && !pauseAndContinue(
+                    "\nWould you like to see another question?" + BLUE +
+                    "\n- Hit 'Enter' to continue the game" + RED +
+                    "\n- Type 'no' to go to Game Selection menu \n" + RESET,
+                    true, -1).equalsIgnoreCase("no"));
 
             // This is just here to tell the user that all of the questions have been used
             // -- it should not be needed in your program (unless you wish to allow up to the total number of
@@ -254,57 +293,127 @@ public class CarnivalQuizGame {
             // SB: Calculate passRate based on questions answered correctly vs questions attempted
             double passRate = numAnsCorrect*100/numQsAttempted;
 
-            // SB: Dish out some hot stats to get the user excited, assuming they did decently
-            System.out.println("\nYou've attempted " + numQsAttempted + " questions in this game and answered " + numAnsCorrect + " correctly.");
-            System.out.println("\nYou've pass rate is " + passRate + "%");
-
             // SB: Now declare the prize. We use the prizes array. Depending on the % scores, we pick the prize. 
-            System.out.print("\nFor this you win ");
+            System.out.print("\nFor scoring " + GREEN + passRate + "%" + RESET + ", you win " + RED);
             if (passRate > 90) {
                 
                 // SB: Print the prize and some shout out
-                System.out.print(strPrizes[2] + ". Woohoo!");
-
-                // SB: Add it to the list of prizes the user won. 
-                // It is a 1D array with 9 rows. So we do some math to calculate the right position to store the prize they won
-                // iSection is the game number. For example, for Claw Machine, the game number is 1. 
-                // This will create unique numbers from 0 to 9 across the 3 games.
-                prizesWon[(3 * iSection) - (3-2)] = strPrizes[2];
+                System.out.print(strPrizes[2] + RESET + ". Woohoo!\n\n");
+                
+                switch (strPrizes[2]) {
+                    case "Teddy Bear":
+                        // SB: Print the teddy bear
+                        printTeddyBear();
+                        // SB: Add it to the list of prizes the user won. 
+                        prizesWon[2] = strPrizes[2];     
+                        break;
+                    case "Basket of caramel apples":
+                        printBasketOfApples();
+                        prizesWon[5] = strPrizes[2];                             
+                        break;
+                    case "Decorated sack full of candy":
+                        printDecoratedCandySack();
+                        prizesWon[8] = strPrizes[2];                             
+                        break;
+                    default:
+                        System.out.println("Unknown prize!");
+                }
             }
             else if (passRate > 60) {
-                System.out.print(strPrizes[1] + ". Super cool!");
-                prizesWon[(3 * iSection) - (3-1)] = strPrizes[1];
+                System.out.print(strPrizes[1] + RESET + ". Super cool!\n\n");
+
+                switch (strPrizes[1]) {
+                    case "Lollipop":
+                        // SB: Print the lollipop
+                        printLollipop();
+                        // SB: Add it to the list of prizes the user won. 
+                        prizesWon[1] = strPrizes[1];     
+                        break;
+                    case "Caramel Apple with Sprinkles":
+                        printCaramelApple();
+                        prizesWon[4] = strPrizes[1];                             
+                        break;
+                    case "Decorated Sack":
+                        printDecoratedSack();
+                        prizesWon[7] = strPrizes[1];                             
+                        break;
+                    default:
+                        System.out.println("Unknown prize!");
+                }
+
             }
             else if (passRate > 30) {
-                System.out.print(strPrizes[0] + ". Nicely Done!");
-                prizesWon[(3 * iSection) - (3-0)] = strPrizes[0];
+                System.out.print(strPrizes[0] + RESET + ". Nicely Done!\n\n");
+                
+                switch (strPrizes[0]) {
+                    case "High Five":
+                        // SB: Print a high five hand
+                        printHighFiveHand();
+                        // SB: Add it to the list of prizes the user won. 
+                        prizesWon[0] = strPrizes[0];     
+                        break;
+                    case "Delicious Apple":
+                        printRedApple();
+                        prizesWon[3] = strPrizes[0];                             
+                        break;
+                    case "Keep your sack":
+                        printSack();
+                        prizesWon[6] = strPrizes[0];
+                        break;
+                    default:
+                        System.out.println("Unknown prize!");
+                }
+
             }
             else {
-                System.out.print("nothing! Better luck next time.");
+                System.out.print("nothing! " + RESET + "Better luck next time.");
             }
             
             // SB: If the passRate is not a perfect 100, they missed some question. Print a list of questions they missed
             if (passRate < 100) {
-                System.out.println("\nThese are the questions you had missed: ");
+                System.out.println(CYAN + "\n\nThese are the questions you had missed: " + RESET);
                 printArrayContents(incorrectQs);
             }
 
-            // SB: Add the score to the total score across all games
-            scoreTotal += score;
-
             // Loop the whole thing if they wish to try another EXCITING game. This is very addictive.
-        } while (!getString(
-                "\n\nWould you like to try a different game? Enter 'no' to exit. Anything else will continue the game. If you quit now, all progress will be lost",
-                true, -1, -1).equalsIgnoreCase("no"));
+        } while (!pauseAndContinue(
+                    "\nWould you like to try a different game?" + BLUE + 
+                    "\n- Hit 'Enter' to continue playing" + RED +
+                    "\n- Type 'no' to quit. WARNING: You will exit the game and all progress will be lost\n" + RESET,
+                    true,-1).equalsIgnoreCase("no"));
 
             // SB: Since the user is quitting the game, it is time to declare the total score and the prizes they won
-            System.out.println("\nYour total score is " + scoreTotal);
-            System.out.println("\nHere's what you won today: ");
+            System.out.println(CYAN + "\nYour total score is " + RESET + scoreTotal);
+            System.out.println(GREEN + "\nHere's are the prizes you won today: " + RESET);
             printArrayContents(prizesWon);
 
-            System.out.println("\nCome back to play another time!");
+            System.out.println(YELLOW + "\n- - - - - - - - - Come back to play another time! - - - - - - - - -" + RESET);
+            System.out.println(RED + "===================================================================" + RESET);
 
     }
+
+    // SB: This method will print the header for the game which will be presented at the top
+    // when questions are displayed. It will contain the game name and game stats. 
+    private static void printGameHeader(String gameName, int numQsAttempted, int numAnsCorrect, double score, double scoreTotal) {
+
+        // SB: Print the game name
+        System.out.println(ORANGE + "===================================================================================" + RESET);
+        System.out.println("                                " + gameName + "                                " + RESET);
+        System.out.println(ORANGE + "===================================================================================" + RESET);
+
+        // SB: Print the game stats
+        System.out.print(YELLOW+ "Questions attempted: " + RESET + numQsAttempted + 
+        YELLOW + "      Answered correctly: " + RESET + numAnsCorrect);
+        if (numQsAttempted > 0) {
+            System.out.println(YELLOW + "      Pass Rate: " + RESET + (numAnsCorrect * 100 / numQsAttempted) + "%");
+        }
+        else {
+            System.out.println(YELLOW + "      Pass Rate: " + RESET + "0%");
+        }
+        
+        System.out.println(YELLOW + "Current score:  " + RESET + score + YELLOW + "         Total Score: " + RESET + scoreTotal);
+        System.out.println(ORANGE + "===================================================================================" + RESET);        
+    }    
 
     // This routine is here to initialize the 2 dimensional array to contain
     // whatever initial starting string is sent as the second parameter.
@@ -424,9 +533,9 @@ public class CarnivalQuizGame {
         strQs[8][0] = "Q - What is method overloading in Java?";
         strQs[8][1] = "Changing the return type of a method";
         strQs[8][2] = "Defining a method in a subclass";
-        strQs[8][3] = "Creating multiple methods with the same name but different parameters.";
-        strQs[8][4] = "Calling a method from multiple threads";
-        strAs[8] = "3"; // SB:
+        strQs[8][3] = "Calling a method from multiple threads";
+        strQs[8][4] = "Creating multiple methods with the same name but different parameters.";
+        strAs[8] = "4"; // SB:
 
         strQs[9][0] = "Q - Which of the following best describes Java’s exception hierarchy?";
         strQs[9][1] = "All exceptions inherit from RuntimeError";
@@ -508,6 +617,52 @@ public class CarnivalQuizGame {
         prizes[0] = "High Five";
         prizes[1] = "Lollipop";
         prizes[2] = "Teddy Bear";
+    }
+
+    // SB: This method will print a high five hand    
+    public static void printHighFiveHand() {
+
+        System.out.println(BROWN + "       _.-._");
+        System.out.println("     /| | | |_");
+        System.out.println("     || | | | |");
+        System.out.println("     || | | | |");
+        System.out.println("    _||     ` |");
+        System.out.println("   \\\\`\\\\       ;");
+        System.out.println("    \\\\        |");;
+        System.out.println("     \\\\      /");;
+        System.out.println("     | |    |");
+        System.out.println("     | |    |" + RESET);
+        System.out.println("    HIGH FIVE!");
+    }    
+
+    // SB: This method will print a lollipop
+    public static void printLollipop() {
+
+        System.out.println(PINK + "     .-''''-." + RESET);
+        System.out.println(YELLOW + "   .'        '." + RESET);
+        System.out.println(CYAN + "  /   .-''-.   \\" + RESET);
+        System.out.println(PINK + " |   /      \\   |" + RESET);
+        System.out.println(YELLOW + " |  |        |  |" + RESET);
+        System.out.println(CYAN + " |   \\      /   |" + RESET);
+        System.out.println(PINK + "  \\   '-..-'   /" + RESET);
+        System.out.println(YELLOW + "   '.        .'" + RESET);
+        System.out.println(CYAN + "     '-.__.-'" + RESET);
+        System.out.println("        ||");
+        System.out.println("        ||");
+        System.out.println("        ||");
+        System.out.println("    LOLLIPOP!");
+    }
+
+    // SB: This method will print a teddy bear
+    public static void printTeddyBear() {
+
+        System.out.println(BROWN + "/  \\.-\"\"\"-./  \\");
+        System.out.println("\\    -   -    /");
+        System.out.println(" |   o   o   |");
+        System.out.println(" \\  .-'''-.  /");
+        System.out.println("  '-\\__Y__/-'");
+        System.out.println("     `---`" + RESET);
+        System.out.println("  TEDDY BEAR!");
     }
 
     // Loads the array sent in with the second topic content.
@@ -655,11 +810,54 @@ public class CarnivalQuizGame {
         strQs[19][4] = "Apple Bobbing-Q20 - Option 04";
         strAs[19] = "2"; // SB: 
 
-        prizes[0] = "Delicious Apple";
-        prizes[1] = "Caramel Apple with Sprinkles";
-        prizes[2] = "Basket of Caramel Apples";
+        prizes[0] = "Delicious apple";
+        prizes[1] = "Caramel apple with sprinkles";
+        prizes[2] = "Basket of caramel apples";
 
     }
+
+    // SB: This method prints a red apple using ANSI escape codes for colors 
+    public static void printRedApple() {
+        System.out.println(GREEN + "        ,----./,---." + RESET);
+        System.out.println(GREEN + "       / #          \\" + RESET);
+        System.out.println(RED + "      /              \\");
+        System.out.println("     |                |");
+        System.out.println("     |                |");
+        System.out.println("      \\              /");
+        System.out.println("       `.          .'");
+        System.out.println("         `--.,..--'" + RESET);
+    }    
+
+    // SB: This method prints a caramel apple with sprinkles using ANSI escape codes for colors
+    public static void printCaramelApple() {
+        System.out.println(GREEN + "        ,----./,---." + RESET);
+        System.out.println(GREEN + "       /  #         \\" + RESET);
+        System.out.println(RED + "      /" + CYAN + " . * " + YELLOW + "|" + PURPLE + " * " + YELLOW + "|" + BLUE + " .* " + RED + "\\");
+        System.out.println(RED + "     |" + PURPLE + " * " + YELLOW + "|" + BLUE + " . * . " + YELLOW + "|" + CYAN + " * " + RED + "|");
+        System.out.println(RED + "     |" + CYAN + " . * " + YELLOW + "|" + PURPLE + " * " + YELLOW + "|" + BLUE + " . * " + RED + "|");
+        System.out.println(RED + "      \\ . * . . * . /" + RESET);
+        System.out.println(RED + "       `.         .'" + RESET);
+        System.out.println(RED + "         `--.,.--'" + RESET);
+    }
+
+    // SB: This method prints a basket of caramel apples using ANSI escape codes for colors
+    public static void printBasketOfApples() {
+        // Apples in basket
+        System.out.println(GREEN + "      ._./\\._." + GREEN + "  ._./\\,_." + RESET);
+        System.out.println(RED + "     (  " + YELLOW + "*.*" + RED + "  )(  " + YELLOW + "*.*" + RED + "  )" + RESET);
+        System.out.println(RED + "    (  " + YELLOW + ".*.*" + RED + "  )(  " + YELLOW + ".*.*" + RED + "  )" + RESET);
+        System.out.println(RED + "     (  " + YELLOW + "*.*" + RED + "  )(  " + YELLOW + "*.*" + RED + "  )" + RESET);
+        
+        // Basket
+        System.out.println(BROWN + "    ╭─────────────────╮");
+        System.out.println("    │ ╭─────────────╮ │");
+        System.out.println("    │ │   Basket    │ │");
+        System.out.println("    │ │     of      │ │");
+        System.out.println("    │ │   Caramel   │ │");
+        System.out.println("    │ │   Apples    │ │");
+        System.out.println("    │ ╰─────────────╯ │");
+        System.out.println("    ╰─────────────────╯" + RESET);
+    } 
 
     // Loads the array sent in with the third topic content.
     // SB: strAs 1D array will store the correct answers for all 20 questions
@@ -807,9 +1005,59 @@ public class CarnivalQuizGame {
         strAs[19] = "3"; // SB: 
 
         prizes[0] = "Keep your sack";
-        prizes[1] = "Decorate Sack";
-        prizes[2] = "Decorate Sack full of candy";        
+        prizes[1] = "Decorated sack";
+        prizes[2] = "Decorated sack full of candy";        
     }
+
+    // SB: This method prints a simple sack
+    public static void printSack() {
+
+        System.out.println(BROWN + "    __________");
+        System.out.println("   /          \\");
+        System.out.println("  /            \\");
+        System.out.println(" /              \\");
+        System.out.println("|                |");
+        System.out.println("|                |");
+        System.out.println("|      SACK      |");
+        System.out.println("|                |");
+        System.out.println("|                |");
+        System.out.println("\\________________/");
+        System.out.println(" \\______________/" + RESET);
+    }
+
+    // SB: This method prints a decorated sack
+    public static void printDecoratedSack() {
+
+        System.out.println(BROWN + "    __________");
+        System.out.println("   /  *..*..  \\");
+        System.out.println("  /  .*..*..*  \\");
+        System.out.println(" /  *..*..*..*  \\");
+        System.out.println("|   ..*..*..*.   |");
+        System.out.println("|    *..*..*.    |");
+        System.out.println("|      SACK      |");
+        System.out.println("|    *..*..*.    |");
+        System.out.println("|   ..*..*..*.   |");
+        System.out.println("\\________________/");
+        System.out.println(" \\**************/" + RESET);
+    }
+
+    // SB: This method prints a decorated sack full of candy
+    public static void printDecoratedCandySack() {
+
+        System.out.println(BROWN + "    __________");
+        System.out.println("   /  *..*..  \\");
+        System.out.println("  /  .*..*..*  \\");
+        System.out.println(" /  *..*..*..*  \\");
+        System.out.println("|   *..*..*..    |");
+        System.out.println("|    *..*..*     |");
+        System.out.println("|   CANDY SACK   |");
+        System.out.println("|    *..*..*     |");
+        System.out.println("|   *..*..*..    |");
+        System.out.println("\\~~~~~~~~~~~~~~~~/");
+        System.out.println(" \\**************/");
+        System.out.println("  \\____________/" + RESET);
+    }
+
 
     /****************************************************************************************************************
      *  
@@ -851,6 +1099,34 @@ public class CarnivalQuizGame {
     }
 
     /***
+     * SB: This is a 'pause' routine to allow the user to respond with a choice before flushing the screen 
+     */
+    public static String pauseAndContinue(String message, boolean clearBeforeContinue, int minLength) {
+
+        // SB: Use the "message" to prompt the user, and gather their input back
+        String msg = "";
+        
+        // SB: if the user provided a postive minlenth value, then ensure the minLength is honored
+        if (minLength > 0) {
+            msg = getString(message, false, minLength, -1);
+        }
+        else {
+            msg = getString(message, true, -1, -1);
+        }
+
+        // SB: if the flag to clear is set
+        if (clearBeforeContinue) {
+            // These next two lines will clear the terminal window in BlueJ and will
+            // also clear the execution area on Repl.it or GDB online. (Fully explained
+            // above.)
+            System.out.print("\033[H\033[2J\f");
+            System.out.flush();
+        }
+        // SB: Return the user response so the appropriate course of action can be determined
+        return msg;
+    }    
+
+    /***
      * This is used to get a valid string input from the user, used whenever I need user input.
      * You send in the sMessage containing what you are asking the user for, next is a boolean value as to whether 
      * an empty string is okay input or not 
@@ -870,7 +1146,7 @@ public class CarnivalQuizGame {
         boolean blnLeaveLoop;
         do {
             // Getting the user's input to be stored in the strTemp variable.
-            System.out.println(sMessage);
+            System.out.print(sMessage);
             strTemp = keyInput.nextLine();
 
             // Make the assumption that the input is good -- switch to false if there is an
