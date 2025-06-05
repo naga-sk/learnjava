@@ -94,7 +94,7 @@ public class CarnivalQuizGame_v2{
 
             // Get the user input for which game to select.
             int iSection = getInt(
-                    "\nHello " + RED + uName + RESET + ". Select your game here: \n" + 
+                    "\nHello " + PINK + uName + RESET + ". Select your game here: \n" + 
                     "* " + YELLOW + "1 - The Claw Machine\n" + 
                     "* " + GREEN + "2 - Apple Bobbing\n" + 
                     "* " + BLUE + "3 - The Sack Race\n" + RESET +
@@ -142,7 +142,7 @@ public class CarnivalQuizGame_v2{
 
             // Loop to do the random questions.
             do {
-                printGameHeader(gameName, numQsAttempted, numAnsCorrect, score, scoreTotal);
+                printGameHeader(gameName, uName, numQsAttempted, numAnsCorrect, score, scoreTotal);
                 
                 // Add one to the question count.
                 iQCount++;
@@ -284,17 +284,19 @@ public class CarnivalQuizGame_v2{
 
             // SB: Let the user get an idea of how they did in the game, and what prizes await them.
             // In this block, we just waste some time as if the program is doing some busy work
-            System.out.println("\nWait! We are calculating how you did in the game ");
-            for (int i=0;i<50;i++) {
-                System.out.print(" -");
-                wait(50);
+            printGameHeader(gameName, uName, numQsAttempted, numAnsCorrect, score, scoreTotal);
+            System.out.print("\nPlease wait " + PINK + uName + RESET+ "! We are fetching your reward");
+            for (int i=0;i<20;i++) {
+                System.out.print(". ");
+                wait(75);
             }
+
 
             // SB: Calculate passRate based on questions answered correctly vs questions attempted
             double passRate = numAnsCorrect*100/numQsAttempted;
 
             // SB: Now declare the prize. We use the prizes array. Depending on the % scores, we pick the prize. 
-            System.out.print("\nFor scoring " + GREEN + passRate + "%" + RESET + ", you win " + RED);
+            System.out.print("\n\nFor scoring " + GREEN + passRate + "%" + RESET + ", you win " + RED);
             if (passRate > 90) {
                 
                 // SB: Print the prize and some shout out
@@ -371,7 +373,7 @@ public class CarnivalQuizGame_v2{
             
             // SB: If the passRate is not a perfect 100, they missed some question. Print a list of questions they missed
             if (passRate < 100) {
-                System.out.println(CYAN + "\n\nThese are the questions you had missed: " + RESET);
+                System.out.println("\n" + PINK + uName + CYAN + " - These are the questions you had missed: " + RESET);
                 printArrayContents(incorrectQs);
             }
 
@@ -382,8 +384,11 @@ public class CarnivalQuizGame_v2{
                     "\n- Type 'no' to quit. WARNING: You will exit the game and all progress will be lost\n" + RESET,
                     true,-1).equalsIgnoreCase("no"));
 
+            System.out.println(RED + "===================================================================" + RESET);
+            System.out.println(YELLOW + "\n- - - - - - THANK YOU for playing the CARNIVAL QUIZ GAME - - - - - -" + RESET);
+
             // SB: Since the user is quitting the game, it is time to declare the total score and the prizes they won
-            System.out.println(CYAN + "\nYour total score is " + RESET + scoreTotal);
+            System.out.println("\n" + PINK + uName + CYAN + " - Your total score is " + RESET + scoreTotal);
             System.out.println(GREEN + "\nHere's are the prizes you won today: " + RESET);
             printArrayContents(prizesWon);
 
@@ -394,7 +399,7 @@ public class CarnivalQuizGame_v2{
 
     // SB: This method will print the header for the game which will be presented at the top
     // when questions are displayed. It will contain the game name and game stats. 
-    private static void printGameHeader(String gameName, int numQsAttempted, int numAnsCorrect, double score, double scoreTotal) {
+    private static void printGameHeader(String gameName, String userName, int numQsAttempted, int numAnsCorrect, double score, double scoreTotal) {
 
         // SB: Print the game name
         System.out.println(ORANGE + "===================================================================================" + RESET);
@@ -402,16 +407,18 @@ public class CarnivalQuizGame_v2{
         System.out.println(ORANGE + "===================================================================================" + RESET);
 
         // SB: Print the game stats
+        System.out.println(YELLOW + "User Name: " + RESET + userName + 
+                            YELLOW + "         Current score: " + RESET + score + 
+                            YELLOW + "         Total Score: " + RESET + scoreTotal);
         System.out.print(YELLOW+ "Questions attempted: " + RESET + numQsAttempted + 
         YELLOW + "      Answered correctly: " + RESET + numAnsCorrect);
         if (numQsAttempted > 0) {
-            System.out.println(YELLOW + "      Pass Rate: " + RESET + (numAnsCorrect * 100 / numQsAttempted) + "%");
+            System.out.println(YELLOW + "      Pass Rate: " + RESET + (numAnsCorrect * 100.0 / numQsAttempted) + "%");
         }
         else {
             System.out.println(YELLOW + "      Pass Rate: " + RESET + "0%");
         }
         
-        System.out.println(YELLOW + "Current score:  " + RESET + score + YELLOW + "         Total Score: " + RESET + scoreTotal);
         System.out.println(ORANGE + "===================================================================================" + RESET);        
     }    
 
@@ -638,19 +645,27 @@ public class CarnivalQuizGame_v2{
     // SB: This method will print a lollipop
     public static void printLollipop() {
 
-        System.out.println(PINK + "     .-''''-." + RESET);
-        System.out.println(YELLOW + "   .'        '." + RESET);
-        System.out.println(CYAN + "  /   .-''-.   \\" + RESET);
-        System.out.println(PINK + " |   /      \\   |" + RESET);
-        System.out.println(YELLOW + " |  |        |  |" + RESET);
-        System.out.println(CYAN + " |   \\      /   |" + RESET);
-        System.out.println(PINK + "  \\   '-..-'   /" + RESET);
-        System.out.println(YELLOW + "   '.        .'" + RESET);
-        System.out.println(CYAN + "     '-.__.-'" + RESET);
-        System.out.println("        ||");
-        System.out.println("        ||");
-        System.out.println("        ||");
-        System.out.println("    LOLLIPOP!");
+        // System.out.println(PINK + "     .-''''-." + RESET);
+        // System.out.println(YELLOW + "   .'        '." + RESET);
+        // System.out.println(CYAN + "  /   .-''-.   \\" + RESET);
+        // System.out.println(PINK + " |   /      \\   |" + RESET);
+        // System.out.println(YELLOW + " |  |        |  |" + RESET);
+        // System.out.println(CYAN + " |   \\      /   |" + RESET);
+        // System.out.println(PINK + "  \\   '-..-'   /" + RESET);
+        // System.out.println(YELLOW + "   '.        .'" + RESET);
+        // System.out.println(CYAN + "     '-.__.-'" + RESET);
+        // System.out.println("        ||");
+        // System.out.println("        ||");
+        // System.out.println("        ||");
+
+        System.out.println(PINK   + "   .-." + RESET);
+        System.out.println(YELLOW + "  ( @ )" + RESET);
+        System.out.println(CYAN   + "   `-'" + RESET);
+        System.out.println("    |");
+        System.out.println("    |");
+        System.out.println("    |");        
+        
+        System.out.println("LOLLIPOP!");
     }
 
     // SB: This method will print a teddy bear
