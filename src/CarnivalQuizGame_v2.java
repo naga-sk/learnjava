@@ -95,9 +95,9 @@ public class CarnivalQuizGame_v2{
             // Get the user input for which game to select.
             int iSection = getInt(
                     "\nHello " + CYAN + uName + RESET + ". Select your game here: \n" + 
-                    "* " + YELLOW + "1 - The Claw Machine\n" + 
-                    "* " + GREEN + "2 - Apple Bobbing\n" + 
-                    "* " + BLUE + "3 - The Sack Race\n" + RESET +
+                    "> " + YELLOW + "1 - The Claw Machine\n" + RESET +
+                    "> " + GREEN + "2 - Apple Bobbing\n" + RESET +
+                    "> " + BLUE + "3 - The Sack Race\n" + RESET +
                     "Which number would you like to play? " +
                     "Please enter " + YELLOW + "1, " + GREEN + "2" + RESET + " or " + BLUE + "3" + RESET + ": ",
                     1, 3);
@@ -159,7 +159,7 @@ public class CarnivalQuizGame_v2{
                 }
 
                 // Show the randomly selected question:
-                System.out.println(PINK + "\nQuestion #" + iQCount + " -- " + strQuestions[iRandQ][0] + RESET);
+                System.out.println(CYAN + "\nQuestion #" + iQCount + " -- " + strQuestions[iRandQ][0] + RESET);
 
                 // This shows the four options -- if you want letters for options instead of
                 // numbers it can be done as well, ask and I can show it.
