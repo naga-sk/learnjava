@@ -94,7 +94,7 @@ public class CarnivalQuizGame_v2{
 
             // Get the user input for which game to select.
             int iSection = getInt(
-                    "\nHello " + PINK + uName + RESET + ". Select your game here: \n" + 
+                    "\nHello " + CYAN + uName + RESET + ". Select your game here: \n" + 
                     "* " + YELLOW + "1 - The Claw Machine\n" + 
                     "* " + GREEN + "2 - Apple Bobbing\n" + 
                     "* " + BLUE + "3 - The Sack Race\n" + RESET +
@@ -285,7 +285,7 @@ public class CarnivalQuizGame_v2{
             // SB: Let the user get an idea of how they did in the game, and what prizes await them.
             // In this block, we just waste some time as if the program is doing some busy work
             printGameHeader(gameName, uName, numQsAttempted, numAnsCorrect, score, scoreTotal);
-            System.out.print("\nPlease wait " + PINK + uName + RESET+ "! We are fetching your reward");
+            System.out.print("\nPlease wait " + CYAN + uName + RESET+ "! We are fetching your reward");
             for (int i=0;i<20;i++) {
                 System.out.print(". ");
                 wait(75);
@@ -331,11 +331,11 @@ public class CarnivalQuizGame_v2{
                         // SB: Add it to the list of prizes the user won. 
                         prizesWon[1] = strPrizes[1];     
                         break;
-                    case "Caramel Apple with Sprinkles":
+                    case "Caramel apple with sprinkles":
                         printCaramelApple();
                         prizesWon[4] = strPrizes[1];                             
                         break;
-                    case "Decorated Sack":
+                    case "Decorated sack":
                         printDecoratedSack();
                         prizesWon[7] = strPrizes[1];                             
                         break;
@@ -354,7 +354,7 @@ public class CarnivalQuizGame_v2{
                         // SB: Add it to the list of prizes the user won. 
                         prizesWon[0] = strPrizes[0];     
                         break;
-                    case "Delicious Apple":
+                    case "Delicious apple":
                         printRedApple();
                         prizesWon[3] = strPrizes[0];                             
                         break;
@@ -373,7 +373,7 @@ public class CarnivalQuizGame_v2{
             
             // SB: If the passRate is not a perfect 100, they missed some question. Print a list of questions they missed
             if (passRate < 100) {
-                System.out.println("\n" + PINK + uName + CYAN + " - These are the questions you had missed: " + RESET);
+                System.out.println("\n" + CYAN + uName + RED + " - These are the questions you had missed: " + RESET);
                 printArrayContents(incorrectQs);
             }
 
@@ -389,7 +389,7 @@ public class CarnivalQuizGame_v2{
             System.out.println(YELLOW + "\n- - - - - - - - THANK YOU for playing! - - - - - - - -" + RESET);
 
             // SB: Since the user is quitting the game, it is time to declare the total score and the prizes they won
-            System.out.println("\n" + PINK + uName + CYAN + " - Your total score is " + RESET + scoreTotal);
+            System.out.println("\n" + CYAN + uName + BLUE + " - Your total score is " + RESET + scoreTotal);
             System.out.println(GREEN + "\nHere's are the prizes you won today: " + RESET);
             printArrayContents(prizesWon);
 
